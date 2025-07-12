@@ -21,17 +21,17 @@ Proyek ini bertujuan untuk membantu kepala lingkungan dan warga dalam melakukan 
 
 ## 🧑‍💻 Teknologi yang Digunakan
 
-| Teknologi     | Keterangan                          |
-| ------------- | ----------------------------------- |
-| PHP           | Bahasa pemrograman backend          |
-| CodeIgniter 3 | Framework utama aplikasi            |
-| Bootstrap 5   | Tampilan UI responsif               |
-| Leaflet.js    | Menampilkan peta lokasi rumah warga |
-| Select2       | Dropdown dengan pencarian           |
-| DataTables    | Tabel interaktif dan sortable       |
-| Dompdf        | Export data ke file PDF             |
-| Pusher.js     | Notifikasi real-time                |
-| PHPDotEnv     | Konfigurasi `.env` seperti Laravel  |
+| Teknologi     | Keterangan                            |
+| ------------- | ------------------------------------- |
+| PHP           | Bahasa pemrograman backend            |
+| CodeIgniter 3 | Framework utama aplikasi              |
+| Bootstrap 5   | Tampilan UI responsif                 |
+| Leaflet.js    | Menampilkan peta lokasi rumah warga   |
+| Select2       | Dropdown dengan pencarian             |
+| DataTables    | Tabel interaktif dan sortable         |
+| Dompdf        | Export data ke file PDF               |
+| Pusher.js     | Notifikasi real-time                  |
+| PWA           | Konfigurasi Web Apps untuk di browser |
 
 ---
 
@@ -92,13 +92,6 @@ Tambahkan beberapa tangkapan layar folder `/screenshots`:
 - Form input penghuni
 - Peta lokasi
 - Export PDF
-
----
-
-## 🧩 Catatan Tambahan
-
-- File `.env` **tidak ikut di-commit** ke Git (terdaftar di `.gitignore`)
-- Perlu konfigurasi **mod_rewrite** untuk URL friendly (non-index.php)
 
 ---
 
