@@ -35,15 +35,6 @@ Proyek ini bertujuan untuk membantu kepala lingkungan dan warga dalam melakukan 
 
 ---
 
-## ⚙️ Instalasi & Setup
-
-### Clone Repository
-
-```bash
-git clone https://github.com/username/sipandu_pbl.git
-cd sipandu_pbl
-```
-
 ## 🛠️ Penggunaan Fitur
 
 ### Pendataan
