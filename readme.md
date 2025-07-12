@@ -62,18 +62,6 @@ Proyek ini bertujuan untuk membantu kepala lingkungan dan warga dalam melakukan 
 
 ---
 
-## 📸 Screenshots (opsional)
-
-Tambahkan beberapa tangkapan layar folder `/screenshots`:
-
-- Halaman login
-- Dashboard Admin / Kaling
-- Form input penghuni
-- Peta lokasi
-- Export PDF
-
----
-
 ## 💬 Kontribusi
 
 Anda tidak dapat berkontribusi dikarenakan ini bersifat privat dan anda hanya dapat melihat repository ini saja tanpa **Fork / Kontribusi** langsung.
