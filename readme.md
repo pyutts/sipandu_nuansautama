@@ -54,18 +54,6 @@ Proyek ini bertujuan untuk membantu kepala lingkungan dan warga dalam melakukan 
 
 ---
 
-## 🧪 Testing
-
-Untuk menjalankan aplikasi secara lokal:
-
-```bash
-php -S localhost://
-```
-
-Pastikan semua ekstensi PHP seperti `mbstring`, `dom`, dan `fileinfo` aktif di `php.ini`.
-
----
-
 ## 👥 Tim Pengembang
 
 - **I Putu Agus Wiadnyana**
