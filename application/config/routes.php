@@ -54,7 +54,7 @@ $route['404_override'] = 'ErrorController/error_404';
 $route['dashboard/error'] = 'ErrorController/error_403';
 $route['translate_uri_dashes'] = FALSE;
 
-// Auth dan Loginnya
+// Login
 $route['default_controller'] = 'AuthController/login';
 $route['auth'] = 'AuthController/login';
 $route['auth/do_login'] = 'AuthController/do_login';
@@ -105,7 +105,7 @@ $route['dashboard/wilayah/edit/(:any)'] = 'WilayahController/edit/$1';
 $route['dashboard/wilayah/update/(:any)'] = 'WilayahController/update/$1';
 $route['dashboard/wilayah/delete/(:any)'] = 'WilayahController/delete/$1';
 
-// Routes untuk Penghuni
+// Routes untuk Pendatang / Penghuni
 $route['dashboard/penghuni/view'] = 'PenghuniController/index';
 $route['dashboard/penghuni/viewpj'] = 'PenghuniController/index_pj';
 $route['dashboard/penghuni/create/pj'] = 'PenghuniController/create_pj';
@@ -125,7 +125,7 @@ $route['dashboard/penghuni/filterTerverifikasiByPJ'] = 'PenghuniController/filte
 $route['dashboard/penghuni/nonaktifkan_status/(:any)'] = 'PenghuniController/nonaktifkan_status/$1';
 $route['dashboard/penghuni/aktifkan_status/(:any)'] = 'PenghuniController/aktifkan_status/$1';
 
-// Routes untuk Surat
+// Routes untuk Surat Pengantar
 $route['dashboard/surat/view'] = 'SuratController/index';
 $route['dashboard/surat/view/pendatang'] = 'SuratController/surat_pendatang';
 $route['dashboard/surat/view/anggota'] = 'SuratController/surat_anggota_keluarga';
@@ -142,7 +142,12 @@ $route['dashboard/surat/ajukan_pendatang'] = 'SuratController/ajukan_surat_penda
 $route['dashboard/surat/ajukan_anggota'] = 'SuratController/ajukan_surat_anggota';
 $route['dashboard/surat/ajukan_surat_anggota'] = 'SuratController/ajukan_surat_anggota';
 $route['dashboard/surat/ajukan_pj_sendiri'] = 'SuratController/ajukan_surat_pj_sendiri';
+// $route['dashboard/surat/ajukan'] = 'SuratController/ajukan_surat';
+$route['dashboard/surat/ajukan_surat_pendatang_pj'] = 'SuratController/ajukan_surat_pendatang_pj';
 $route['dashboard/surat/delete'] = 'SuratController/delete_surat';
+
+// Routes untuk hapus notifikasi => saya ambil dari id brodcast dari pusher
+$route['notifikasi/delete'] = 'NotifikasiController/delete';
 
 // Routes untuk Laporan
 $route['dashboard/report/view'] = 'LaporanController/index';
@@ -150,8 +155,6 @@ $route['dashboard/reportdetailpj'] = 'LaporanController/report_pj';
 $route['dashboard/reportpendatang/(:any)'] = 'LaporanController/report_pendatang/$1';
 $route['dashboard/reportall'] = 'LaporanController/report_all';
 
-// Routes untuk Keperluan Surat
-$route['keperluan'] = 'KeperluanController/index';
-$route['keperluan/store'] = 'KeperluanController/store';
-$route['dashboard/surat/ajukan'] = 'SuratController/ajukan_surat';
-$route['dashboard/surat/ajukan_surat_pendatang_pj'] = 'suratcontroller/ajukan_surat_pendatang_pj';
+// $route['keperluan'] = 'KeperluanController/index';
+// $route['keperluan/store'] = 'KeperluanController/store';
+

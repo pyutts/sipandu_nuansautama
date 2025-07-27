@@ -5,10 +5,23 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-body">
-                <form action="<?= base_url('dashboard/pj/update_pj/' . $pj->uuid) ?>" method="POST" enctype="multipart/form-data" id="pjForm">
-                <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
-                    <h5 class="card-title fw-semibold mb-4">Edit Data Penanggung Jawab</h5>
 
+            <form action="<?= base_url('dashboard/pj/update_pj/' . $pj->uuid) ?>" method="POST" enctype="multipart/form-data" id="pjForm">
+                <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
+                    <h5 class="card-title fw-semibold mb-4">My Profil</h5>
+                     <!-- ALERT PERHATIAN -->
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <div class="alert alert-warning border-0 shadow-sm rounded-3" role="alert">
+                                <h5 class="mb-3"><i class="fas fa-exclamation-triangle me-2"></i>Perhatian!</h5>
+                                <ul class="mb-0 ps-3" style="list-style-type: disc;">
+                                    <li>Pastikan Anda mengunggah <strong>Foto KK</strong> yang jelas dan Ukuran gambar 2MB</li>
+                                    <li>Jangan lupa untuk <strong>klik lokasi</strong> Anda pada peta untuk mengisi koordinat.</li>
+                                    <li><strong>Alamat Sekarang</strong> akan terisi otomatis berdasarkan GPS browser Anda.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                     <?php if ($this->session->flashdata('error_upload')): ?>
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                             <h6 class="alert-heading">Gagal Upload!</h6>
@@ -22,7 +35,7 @@
                             <label class="form-label">Scan Kartu Keluarga (KK)</label><br>
                             <img id="previewKKImg" src="<?= $pj->foto_kk ? base_url('uploads/pj/' . $pj->foto_kk) : base_url('assets/images/profile/scan_kk.png') ?>" alt="Scan KK" class="img-fluid rounded shadow-sm" style="max-height: 400px;">
                             <div class="mt-4">
-                                <input type="file" name="foto_kk" id="foto_kk" class="form-control <?= form_error('foto_kk') ? 'is-invalid' : '' ?>" accept="image/*,.pdf">
+                                <input type="file" name="foto_kk" id="foto_kk" class="form-control <?= form_error('foto_kk') ? 'is-invalid' : '' ?>" accept="image/png, image/jpeg" onchange="validateImage(this)">
                                 <?= form_error('foto_kk', '<div class="invalid-feedback d-block">', '</div>'); ?>
                             </div>
                         </div>
@@ -331,6 +344,43 @@
             const address = await getAddressFromCoordinates(lat, lng);
             $('#alamat_maps').val(address);
         });
+    }
+
+     function validateImage(input) {
+        const file = input.files[0];
+        if (!file) return;
+
+        const allowedTypes = ['image/jpeg', 'image/png'];
+        const maxSize = 2 * 1024 * 1024; 
+        let errorMessage = '';
+
+        if (!allowedTypes.includes(file.type)) {
+            errorMessage = 'Hanya file PNG atau JPG yang diperbolehkan!';
+        } else if (file.size > maxSize) {
+            errorMessage = 'Ukuran file tidak boleh lebih dari 2 MB!';
+        }
+
+        if (errorMessage) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Upload Gagal',
+                text: errorMessage,
+            }).then(() => {
+                input.value = ''; 
+                location.reload(); 
+            });
+            return false;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            $('#previewKKImg').attr('src', e.target.result).css('filter', 'none');
+            const modalImg = document.getElementById('previewKKModalImg');
+            if (modalImg) modalImg.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+
+        return true;
     }
 
     function updateTable() {

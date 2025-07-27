@@ -5,33 +5,32 @@
 <div class="container-fluid">
     <div class="card">
         <div class="card-body">
+
             <form action="<?= base_url('dashboard/pj/store') ?>" method="POST" enctype="multipart/form-data" id="pjForm">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 class="card-title mb-0">Buat Akun Penanggung Jawab</h4>
+                    <h4 class="card-title mb-0">Tambah Data Penanggung Jawab</h4>
                 </div>
-
-                <!-- Alert Section -->
-                <div class="row mb-4">
-                    <div class="col-md-12">
-                        <div class="alert alert-warning border-0 shadow-sm rounded-3" role="alert">
-                            <h5 class="mb-3"><i class="fas fa-exclamation-triangle me-2"></i>Perhatian!</h5>
-                            <ul class="mb-0 ps-3" style="list-style-type: disc;">
-                                <li>Pastikan Anda mengunggah <strong>Scan Kartu Keluarga</strong> dengan jelas.</li>
-                                <li>Data seperti <em>NIK</em>, <em>Nama</em>, <em>Tempat/Tanggal Lahir</em>, dan lainnya harus diisi manual dan bisa otomatis sesuai KK.</li>
-                                <li>Jangan lupa untuk <strong>klik lokasi</strong> Anda pada peta untuk mengisi koordinat.</li>
-                                <li><strong>Alamat Sekarang</strong> akan terisi otomatis berdasarkan GPS browser Anda.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
+                
+                <!-- ALERT PERHATIAN -->
+               <div class="row mb-4">
+                   <div class="col-md-12">
+                       <div class="alert alert-warning border-0 shadow-sm rounded-3" role="alert">
+                           <h5 class="mb-3"><i class="fas fa-exclamation-triangle me-2"></i>Perhatian!</h5>
+                           <ul class="mb-0 ps-3" style="list-style-type: disc;">
+                               <li>Pastikan Anda mengunggah <strong>Foto KK</strong> yang jelas dan Ukuran gambar 2MB</li>
+                               <li>Jangan lupa untuk <strong>klik lokasi</strong> Anda pada peta untuk mengisi koordinat.</li>
+                               <li><strong>Alamat Sekarang</strong> akan terisi otomatis berdasarkan GPS browser Anda.</li>
+                           </ul>
+                       </div>
+                   </div>
+               </div>
                 <!-- FOTO & SCAN KK -->
                 <div class="row mb-4">
                     <div class="col-md-12 text-center">
                         <label class="form-label">Scan Kartu Keluarga (KK)</label><br>
                         <img id="previewKKImg" src="<?= base_url('assets/images/profile/scan_kk.png') ?>" alt="Scan KK" class="img-fluid rounded" style="max-height: 400px;">
                         <div class="mt-4">
-                            <input type="file" name="foto_kk" id="foto_kk" class="form-control <?= form_error('foto_kk') ? 'is-invalid' : '' ?>" accept="image/*,.pdf">
+                            <input type="file" name="foto_kk" id="foto_kk" class="form-control <?= form_error('foto_kk') ? 'is-invalid' : '' ?>" accept="image/png, image/jpeg" onchange="validateImage(this)">
                              <?= form_error('foto_kk', '<div class="invalid-feedback d-block">', '</div>'); ?>
                         </div>
                     </div>
@@ -386,6 +385,33 @@
         $(input).next('.invalid-feedback').text('').hide();
     }
 
+    function validateImage(input) {
+        const file = input.files[0];
+        if (!file) return;
+
+        const allowedTypes = ['image/jpeg', 'image/png'];
+        const maxSize = 2 * 1024 * 1024; 
+
+        let errorMessage = '';
+
+        if (!allowedTypes.includes(file.type)) {
+            errorMessage = 'Hanya file PNG atau JPG yang diperbolehkan!';
+        } else if (file.size > maxSize) {
+            errorMessage = 'Ukuran file tidak boleh lebih dari 2 MB!';
+        }
+
+        if (errorMessage) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Upload Gagal',
+                text: errorMessage,
+            }).then(() => {
+                input.value = ''; 
+            });
+        }
+    }
+        
+
     $(document).ready(function() {
         try {
             const oldData = JSON.parse('<?= html_entity_decode(set_value('anggota_keluarga', '[]')) ?>');
@@ -615,7 +641,11 @@
             };
             reader.readAsDataURL(file);
         } else {
-            Swal.fire('Error', 'Anda belum memilih gambar!', 'error');
+             Swal.fire({
+                icon: 'warning',
+                title: 'File tidak ditemukan',
+                text: 'Pilih gambar terlebih dahulu.'
+            });
         }
     }
 

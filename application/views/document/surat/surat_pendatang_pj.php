@@ -116,6 +116,9 @@
                                             <?php if ($s->status_proses !== 'Diterima') echo 'style=\"pointer-events:none;opacity:0.5;\"'; ?>>
                                             <i class="fas fa-print"></i>
                                         </button>
+                                        <button class="btn btn-danger btn-sm btn-hapus-surat" data-uuid="<?= $s->uuid ?>" title="Hapus">
+                                             <i class="fas fa-trash"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -165,6 +168,9 @@
                                                 class="btn btn-primary btn-sm" title="Cetak Surat" target="_blank">
                                                 <i class="fas fa-print"></i>
                                         </a>
+                                        <button class="btn btn-danger btn-sm btn-hapus-surat" data-uuid="<?= $s->uuid ?>" title="Hapus">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -265,6 +271,51 @@
                 }
             });
         }
+
+        document.querySelectorAll('.btn-hapus-surat').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const uuid = this.getAttribute('data-uuid'); 
+                
+                Swal.fire({
+                    title: 'Anda Yakin?',
+                    text: "Data surat yang dihapus tidak akan dapat dikembalikan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Hapus Surat',
+                    cancelButtonText: 'Batal'
+
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const csrfName = document.querySelector('meta[name="csrf-token-name"]')?.content;
+                        const csrfHash = document.querySelector('meta[name="csrf-token-hash"]')?.content;
+
+                        const bodyParams = new URLSearchParams();
+                        bodyParams.append('uuid', uuid); 
+                        if(csrfName && csrfHash) {
+                            bodyParams.append(csrfName, csrfHash);
+                        }
+
+                        fetch('<?= base_url('dashboard/surat/delete') ?>', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                            body: bodyParams
+                        })
+                        .then(res => res.json())
+                        .then(res => {
+                            if (res.success) {
+                                Swal.fire('Dihapus!', 'Surat telah berhasil dihapus.', 'success')
+                                .then(() => location.reload());
+                            } else {
+                                Swal.fire('Gagal', res.error || 'Gagal menghapus surat.', 'error');
+                            }
+                        })
+                        .catch(() => {
+                            Swal.fire('Error', 'Terjadi kesalahan jaringan.', 'error');
+                        });
+                    }
+                });
+            });
+        });
 
         const btnAjukanSurat = document.getElementById('btnAjukanSurat');
         if (btnAjukanSurat) {

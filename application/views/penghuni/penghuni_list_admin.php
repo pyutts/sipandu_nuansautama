@@ -189,37 +189,45 @@
                                     <td class="text-center">
                                         <div class="d-flex gap-2">
                                             <a href="<?= base_url('dashboard/penghuni/details/admin/' . $p->uuid) ?>"
-                                                class="btn btn-info btn-sm"
-                                                title="Lihat Detail">
-                                                <i class="fas fa-eye"></i>
+                                            class="btn btn-info btn-sm"
+                                            title="Lihat Detail">
+                                            <i class="fas fa-eye"></i>
                                             </a>
-                                            <a href="<?= base_url('dashboard/penghuni/edit/admin/' . $p->uuid) ?>"
-                                                class="btn btn-warning btn-sm"
-                                                title="Edit Data">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            <?php if ($p->status_verifikasi === 'Diterima' && $p->status_penghuni === 'Aktif'): ?>
+
+                                            <?php if ($p->status_verifikasi === 'Diterima' && $p->status_penghuni === 'Aktif'): ?>                                                
                                                 <a href="javascript:void(0);"
-                                                    class="btn btn-danger btn-sm"
-                                                    title="Non-aktifkan"
-                                                    onclick="nonAktifkan('<?= $p->uuid ?>')">
-                                                    <i class="fas fa-user-times"></i>
+                                                class="btn btn-danger btn-sm"
+                                                title="Non-aktifkan"
+                                                onclick="nonAktifkan('<?= $p->uuid ?>')">
+                                                <i class="fas fa-user-times"></i>
                                                 </a>
-                                            <?php elseif ($p->status_verifikasi === 'Diterima' && $p->status_penghuni === 'Tidak Aktif'): ?>
-                                                <a href="javascript:void(0);"
+                                            <?php endif; ?>
+
+                                            <?php if ($p->status_penghuni === 'Tidak Aktif'): ?>
+                                                <?php if ($p->status_verifikasi === 'Diterima'): ?>
+                                                    <a href="javascript:void(0);"
                                                     class="btn btn-success btn-sm"
                                                     title="Aktifkan Kembali"
                                                     onclick="aktifkan('<?= $p->uuid ?>')">
                                                     <i class="fas fa-user-check"></i>
+                                                    </a>
+                                                <?php endif; ?>
+
+                                                <a href="<?= base_url('dashboard/penghuni/edit/admin/' . $p->uuid) ?>"
+                                                class="btn btn-warning btn-sm"
+                                                title="Edit Data">
+                                                <i class="fas fa-edit"></i>
                                                 </a>
-                                                  <button onclick="confirmDelete(<?= $p->id ?>)"
+
+                                                <button onclick="confirmDelete(<?= $p->id ?>)"
                                                         class="btn btn-danger btn-sm"
                                                         title="Hapus">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
                                             <?php endif; ?>
                                         </div>
                                     </td>
+
                                 </tr>
                         <?php
                             endforeach;

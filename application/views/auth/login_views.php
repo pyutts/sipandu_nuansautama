@@ -50,6 +50,8 @@
   </div>
 </div>
 
+<?php $this->load->view('partials/watermark'); ?>
+
 <?php HelperJS::start('scripts'); ?>
   <script>
   document.addEventListener("DOMContentLoaded", function() {
@@ -83,6 +85,19 @@
               title: 'Error!',
               text: '<?= addslashes($eror_message); ?>',
               showConfirmButton: false
+          });
+      <?php endif; ?>
+
+      <?php
+      $eror_message = $this->session->flashdata('errorauth');
+      if ($eror_message):
+      ?>
+          Swal.fire({
+              icon: 'error',
+              title: 'Opps!',
+              text: '<?= addslashes($eror_message); ?>',
+              showConfirmButton: true,
+              confirmButtonText: 'OK'
           });
       <?php endif; ?>
 

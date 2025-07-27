@@ -325,39 +325,52 @@
                             </thead>
                             <tbody>
                                 <?php 
-                                if (isset($data_keluarga_terkelompok) && !empty($data_keluarga_terkelompok)):
-                                    $no = 1; 
-                                    foreach($data_keluarga_terkelompok as $nama_kk => $anggota_keluarga): ?>
-                                        
-                                        <tr class="">
-                                            <td colspan="4" class="fw-bold">
-                                                <b>Keluarga: <?= htmlspecialchars($nama_kk) ?></b>
-                                            </td>
-                                        </tr>
+                                    if (isset($data_keluarga_terkelompok) && !empty($data_keluarga_terkelompok)):
+                                        $no = 1; 
+                                        foreach($data_keluarga_terkelompok as $nama_kk => $anggota_keluarga): 
+                                            if (empty($anggota_keluarga)) continue;
+                                            $adaDataValid = false;
+                                            foreach ($anggota_keluarga as $w) {
+                                                if (!empty($w->nama_lengkap) || !empty($w->alamat) || !empty($w->status)) {
+                                                    $adaDataValid = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (!$adaDataValid) continue;
+                                    ?>
+                                            <tr>
+                                                <td colspan="4" class="fw-bold">
+                                                    <b>Keluarga: <?= htmlspecialchars($nama_kk ?? '-') ?></b>
+                                                </td>
+                                            </tr>
 
-                                        <?php 
-                                        foreach($anggota_keluarga as $w): ?>
+                                            <?php foreach($anggota_keluarga as $w): 
+                                                if (empty($w->nama_lengkap) && empty($w->alamat) && empty($w->status)) continue;
+                                            ?>
+                                                <tr>
+                                                    <td><?= $no++ ?></td>
+                                                    <td><?= htmlspecialchars($w->nama_lengkap ?? '-') ?></td>
+                                                    <td><?= htmlspecialchars($w->alamat ?? '-') ?></td>
+                                                    <td>
+                                                        <?php 
+                                                            $status = $w->status ?? '-';
+                                                            if (strtolower($status) === 'kepala keluarga') {
+                                                                echo '<span class="badge bg-primary">' . htmlspecialchars($status) . '</span>';
+                                                            } else {
+                                                                echo htmlspecialchars($status);
+                                                            }
+                                                        ?>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                    <?php 
+                                        endforeach; 
+                                    else: ?>
                                         <tr>
-                                            <td><?= $no++ ?></td>
-                                            <td><?= htmlspecialchars($w->nama_lengkap) ?></td>
-                                            <td><?= htmlspecialchars($w->alamat) ?></td>
-                                            <td>
-                                                <?php 
-                                                    if(strtolower($w->status) === 'kepala keluarga'){
-                                                        echo '<span class="badge bg-primary">' . htmlspecialchars($w->status) . '</span>';
-                                                    } else {
-                                                        echo htmlspecialchars($w->status);
-                                                    }
-                                                ?>
-                                            </td>
+                                            <td colspan="4" class="text-center">Data tidak ditemukan.</td>
                                         </tr>
-                                        <?php endforeach; ?>
-                                    <?php endforeach; 
-                                else: ?>
-                                    <tr>
-                                        <td colspan="4" class="text-center">Data tidak ditemukan.</td>
-                                    </tr>
-                                <?php endif; ?>
+                                    <?php endif; ?>
+
                             </tbody>
                         </table>
                     </div>
@@ -403,7 +416,7 @@
                             <td><?= $no++ ?></td>
                             <td><?= $pd->nama_lengkap; ?></td>
                             <td><?= $pd->nama_pj; ?></td>
-                            <td><?= $pd->alamat_detail; ?>, No.<?= $p->alamat_no ?></td>
+                            <td><?= $pd->alamat_detail; ?>, No. <?= $p->alamat_no ?></td>
                             <td><?= $pd->no_hp; ?></td>
                         </tr>
                     <?php endforeach; ?>

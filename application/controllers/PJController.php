@@ -42,7 +42,7 @@ class PJController extends MY_Controller
 
         $config['upload_path']   = FCPATH . 'uploads/pj/';
         $config['allowed_types'] = 'jpg|jpeg|png|webp|pdf';
-        $config['max_size'] = '8192';  
+        $config['max_size'] = '2048';  
 
         if (!is_dir($config['upload_path'])) {
             mkdir($config['upload_path'], 0777, true);
@@ -72,7 +72,7 @@ class PJController extends MY_Controller
             $config_compress['maintain_ratio']   = TRUE;
             $config_compress['width']            = 1920; 
             $config_compress['height']           = 1920; 
-            $config_compress['quality']          = '50%';
+            $config_compress['quality']          = '90%';
             
             $this->load->library('image_lib', $config_compress);
 
@@ -131,7 +131,7 @@ class PJController extends MY_Controller
     public function create()
     {
         $this->check_role(['Admin', 'Kepala Lingkungan']);
-        $data['title'] = "Buat Akun Penanggung Jawab | SIPANDU Nuansa Utama";
+        $data['title'] = "Tambah Data Penanggung Jawab | SIPANDU Nuansa Utama";
         $data['wilayah'] = $this->WilayahModel->get_all();
         $data['default_wilayah_id'] = $this->session->userdata('wilayah_id'); 
         $this->load->view('pj/pj_create_admin', $data);

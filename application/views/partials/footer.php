@@ -1,4 +1,3 @@
-<!-- Vendor JS -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -10,8 +9,6 @@
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
 <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
-
-<!-- App JS -->
 <script src="<?= base_url('/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js'); ?>"></script>
 <script src="<?= base_url('/assets/js/sidebarmenu.js'); ?>"></script>
 <script src="<?= base_url('/assets/js/app.min.js'); ?>"></script>
@@ -118,16 +115,36 @@
       e.stopPropagation();
 
       const id = String($(this).data('id'));
-      if (!deletedIds.includes(id)) {
-        deletedIds.push(id);
-        localStorage.setItem('deletedNotifIds', JSON.stringify(deletedIds));
-      }
 
-      renderNotifications(notifications);
+      $.ajax({
+        url: '<?= base_url('notifikasi/delete') ?>',
+        method: 'POST',
+        data: { id: id },
+        success: function (res) {
+          if (res.status === 'success') {
+            if (!deletedIds.includes(id)) {
+              deletedIds.push(id);
+              localStorage.setItem('deletedNotifIds', JSON.stringify(deletedIds));
+            }
+            renderNotifications(notifications);
+          }
+        }
+      });
     });
+
   }
 
   renderNotifications(notifications);
+  channel.bind('notif-deleted', function (data) {
+    const id = String(data.notif_id);
+
+    if (!deletedIds.includes(id)) {
+      deletedIds.push(id);
+      localStorage.setItem('deletedNotifIds', JSON.stringify(deletedIds));
+      renderNotifications(notifications);
+    }
+  });
+
   channel.bind('status-update', function (response) {
     const items = response.data;
 

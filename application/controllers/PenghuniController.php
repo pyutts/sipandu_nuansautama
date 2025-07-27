@@ -25,8 +25,8 @@ class PenghuniController extends MY_Controller
         }
 
         $config['upload_path']   = FCPATH . 'uploads/penghuni/';
-        $config['allowed_types'] = 'jpg|jpeg|png|pdf';
-        $config['max_size']      = '8192'; 
+        $config['allowed_types'] = 'jpg|jpeg|png';
+        $config['max_size']      = '2048'; 
 
         if (!is_dir($config['upload_path'])) {
             mkdir($config['upload_path'], 0777, true);
@@ -45,7 +45,7 @@ class PenghuniController extends MY_Controller
         }
 
         $upload_data = $this->upload->data();
-        $image_types = ['jpg', 'jpeg', 'png', 'webp'];
+        $image_types = ['jpg', 'jpeg', 'png'];
         
         if (in_array(ltrim(strtolower($upload_data['file_ext']), '.'), $image_types) && $upload_data['file_size'] > 1024) {
             $this->load->library('image_lib');
@@ -54,7 +54,7 @@ class PenghuniController extends MY_Controller
             $config_compress['maintain_ratio'] = TRUE;
             $config_compress['width']          = 1920;
             $config_compress['height']         = 1920;
-            $config_compress['quality']        = '60%';
+            $config_compress['quality']        = '90%';
             
             $this->image_lib->initialize($config_compress);
             if (!$this->image_lib->resize()) {
@@ -893,7 +893,7 @@ class PenghuniController extends MY_Controller
             return;
         }
 
-        $this->form_validation->set_rules(
+            $this->form_validation->set_rules(
                 'nik',
                 'NIK',
                 'required|exact_length[16]',

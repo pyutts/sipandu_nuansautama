@@ -8,7 +8,7 @@ class MY_Controller extends CI_Controller {
         $this->load->library('session');
 
         if (!$this->session->userdata('user_id') || !$this->session->userdata('role')) {
-            $this->session->set_flashdata('error', 'Silakan login kembali!');
+            $this->session->set_flashdata('errorauth', 'Sesi anda sudah berakhir, Silakan login kembali!');
             redirect('auth');
         }
     }

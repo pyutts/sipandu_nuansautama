@@ -1,5 +1,4 @@
-<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-    data-sidebar-position="fixed" data-header-position="fixed">
+<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"data-sidebar-position="fixed" data-header-position="fixed">
     <aside class="left-sidebar">
         <div>
             <div class="brand-logo d-flex align-items-center justify-content-between">
@@ -14,11 +13,11 @@
             <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
                 <ul id="sidebarnav">
 
+                    <?php if (in_array($role, ['Admin', 'Kepala Lingkungan'])): ?>
                     <li class="nav-small-cap">
                         <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                         <span class="hide-menu">Home</span>
                     </li>
-                    <?php if (in_array($role, ['Admin', 'Kepala Lingkungan'])): ?>
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="<?= site_url('dashboard'); ?>">
                                 <i class="ti ti-layout-dashboard"></i>
@@ -27,6 +26,10 @@
                         </li>
                     <?php endif; ?>
 
+                    <li class="nav-small-cap">
+                        <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                        <span class="hide-menu">Master Data</span>
+                    </li>
                     <?php if ($role == 'Admin'): ?>
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="<?= site_url('dashboard/admin/view'); ?>">
@@ -67,7 +70,7 @@
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="<?= site_url('dashboard/pj/editdata'); ?>">
                                 <i class="ti ti-user"></i>
-                                <span class="hide-menu">Profil Data</span>
+                                <span class="hide-menu">My Profil</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
@@ -114,4 +117,4 @@
 
         </div>
     </aside>
-    <div class="body-wrapper">
+<div class="body-wrapper">

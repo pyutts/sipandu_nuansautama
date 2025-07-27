@@ -12,7 +12,7 @@
                 <h5 class="mb-3"><i class="fas fa-exclamation-triangle me-2"></i>Perhatian!</h5>
                 <ul class="mb-0 ps-3" style="list-style-type: disc;">
                     <li>Silahkan Memilih Data Pendatang yang sudah terverifikasi oleh <strong>Kepala Lingkungan</strong></li>
-                    <li>Cetak Dalam Format Kertas <strong>F4 atau legal</strong></li>
+                    <li>Cetak Dalam Format Kertas <strong>A4</strong></li>
                     <li>Scale Format Dokumen di <strong>100%</strong></li>
                 </ul>
             </div>
@@ -34,7 +34,6 @@
                     </button>
                 </div>
             </form>
-
         </div>
     </div>
 

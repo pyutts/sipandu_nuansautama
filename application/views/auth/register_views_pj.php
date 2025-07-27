@@ -59,6 +59,8 @@
   </div>
 </div>
 
+<?php $this->load->view('partials/watermark'); ?>
+
 <?php HelperJS::start('scripts'); ?>
   <script>
   document.addEventListener("DOMContentLoaded", function() {

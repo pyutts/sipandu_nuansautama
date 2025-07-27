@@ -31,7 +31,7 @@
                             <label class="form-label">Foto</label><br>
                             <img src="<?= base_url('assets/images/profile/foto.png') ?>" alt="Foto" class="img-fluid" style="max-height: 200px; filter: grayscale(100%);">
                             <div class="mt-4">
-                                <input type="file" name="foto" id="foto"  class="form-control <?= form_error('foto') ? 'is-invalid' : '' ?> accept="image/*" required>
+                                <input type="file" name="foto" id="foto"  class="form-control <?= form_error('foto') ? 'is-invalid' : '' ?> accept="image/png, image/jpeg" onchange="validateImage(this)" required>
                                 <?= form_error('foto', '<div class="invalid-feedback d-block">', '</div>'); ?>
                                 <button type="button" class="btn btn-primary mt-4 text-center" onclick="showPreviewImage('foto', 'previewFotoImg', 'modalPreviewFoto')">Preview Foto</button>
                             </div>
@@ -40,7 +40,7 @@
                             <label class="form-label">KTP (Kartu Tanda Penduduk)</label><br>
                             <img src="<?= base_url('assets/images/profile/scan_ktp.png') ?>" alt="Scan KTP" class="img-fluid" style="max-height: 200px; filter: grayscale(100%);">
                             <div class="mt-4">
-                                <input type="file" name="ktp" id="ktp" class="form-control <?= form_error('ktp') ? 'is-invalid' : '' ?>" accept="image/*" required>
+                                <input type="file" name="ktp" id="ktp" class="form-control <?= form_error('ktp') ? 'is-invalid' : '' ?>" accept="image/png, image/jpeg" onchange="validateImage(this)" required>
                                  <?= form_error('ktp', '<div class="invalid-feedback d-block">', '</div>'); ?>
                             </div>
                             <button type="button" class="btn btn-primary mt-4 text-center" onclick="showPreviewImage('ktp', 'previewKtpImg', 'modalPreviewKTP')">Preview KTP</button>
@@ -403,6 +403,32 @@
                         tujuanHidden.value = this.value;
                     }
                 });
+            }
+
+            function validateImage(input) {
+                const file = input.files[0];
+                if (!file) return;
+
+                const allowedTypes = ['image/jpeg', 'image/png'];
+                const maxSize = 2 * 1024 * 1024; 
+
+                let errorMessage = '';
+
+                if (!allowedTypes.includes(file.type)) {
+                    errorMessage = 'Hanya file PNG atau JPG yang diperbolehkan!';
+                } else if (file.size > maxSize) {
+                    errorMessage = 'Ukuran file tidak boleh lebih dari 2 MB!';
+                }
+
+                if (errorMessage) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Upload Gagal',
+                        text: errorMessage,
+                    }).then(() => {
+                        input.value = ''; 
+                    });
+                }
             }
             
             function showPreviewImage(inputId, imgPreviewId, modalId) {

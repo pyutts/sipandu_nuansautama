@@ -20,5 +20,46 @@
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
+
+<style>
+  @media (max-width: 576px) {
+    #notifList {
+      width: 300px !important;
+      right: 0 !important;
+      left: auto !important;
+      border-radius: 12px !important;
+      top: 60px !important;
+    }
+
+    #notifList .card-body {
+      padding: 0.75rem !important;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    #notifList .btn-delete-notif {
+      margin-top: 0.5rem;
+      align-self: flex-end;
+    }
+
+    #notifList .fw-bold {
+      font-size: 0.9rem;
+    }
+
+    #notifList .small {
+      font-size: 0.75rem;
+    }
+
+    #notifList li {
+      padding: 0.5rem 1rem !important;
+    }
+
+    #notifList .card-body > div {
+      max-width: 240px;
+      word-wrap: break-word;
+    }
+  }
+</style>
+
 <body>
   

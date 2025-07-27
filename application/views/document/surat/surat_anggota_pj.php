@@ -152,7 +152,7 @@
                                         <td class="text-center">
                                             <?= htmlspecialchars($s->nama_pemohon) ?>
                                             <?php if (is_null($s->anggota_keluarga_id)): ?>
-                                                <span class="badge bg-info">Pribadi</span>
+                                                <span class="badge bg-info">Diajukan Pribadi</span>
                                             <?php endif; ?>
                                         </td>
 
@@ -175,9 +175,15 @@
                                                 <a href="<?= $print_url ?>" class="btn btn-primary btn-sm" title="Cetak Surat" target="_blank">
                                                     <i class="fas fa-print"></i>
                                                 </a>
+                                                <button class="btn btn-danger btn-sm btn-hapus-surat" data-uuid="<?= $s->uuid ?>" title="Hapus">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
                                             <?php else: ?>
                                                 <button class="btn btn-secondary btn-sm" title="Tidak dapat mencetak surat" disabled>
                                                     <i class="fas fa-print"></i>
+                                                </button>
+                                                <button class="btn btn-danger btn-sm btn-hapus-surat" data-uuid="<?= $s->uuid ?>" title="Hapus">
+                                                    <i class="fas fa-trash"></i>
                                                 </button>
                                             <?php endif; ?>
                                         </td>
@@ -463,9 +469,10 @@
 
     });
 
-    document.querySelectorAll('.btn-hapus-surat').forEach(btn => {
+      document.querySelectorAll('.btn-hapus-surat').forEach(btn => {
         btn.addEventListener('click', function() {
             const uuid = this.getAttribute('data-uuid'); 
+            
             Swal.fire({
                 title: 'Anda Yakin?',
                 text: "Data surat yang dihapus tidak akan dapat dikembalikan!",
@@ -507,6 +514,7 @@
             });
         });
     });
+    
 </script>
 <?php HelperJS::end('scripts'); ?>
 

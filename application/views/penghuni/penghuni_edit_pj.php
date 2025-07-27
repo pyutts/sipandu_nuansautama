@@ -43,7 +43,7 @@
                             <img src="<?= !empty($penghuni->foto_profil) ? base_url('uploads/penghuni/' . $penghuni->foto_profil) : base_url('assets/images/profile/foto.png') ?>" 
                             alt="Foto" class="img-fluid rounded" style="max-height: 200px;">
                             <div class="mt-4">
-                                <input type="file" name="foto" id="foto"  class="form-control <?= form_error('foto') ? 'is-invalid' : '' ?> accept="image/*">
+                                <input type="file" name="foto" id="foto"  class="form-control <?= form_error('foto') ? 'is-invalid' : '' ?> accept="image/png, image/jpeg" onchange="validateImage(this)">
                                 <?= form_error('foto', '<div class="invalid-feedback d-block">', '</div>'); ?>
                                 <button type="button" class="btn btn-primary mt-4 text-center" onclick="showPreviewImage('foto', 'previewFotoImg', 'modalPreviewFoto')">Preview Foto</button>
                             </div>
@@ -53,7 +53,7 @@
                             <img src="<?= !empty($penghuni->foto_ktp) ? base_url('uploads/penghuni/' . $penghuni->foto_ktp) : base_url('assets/images/profile/scan_ktp.png') ?>" 
                             alt="Scan KTP" class="img-fluid rounded" style="max-height: 200px;">
                             <div class="mt-4">
-                                <input type="file" name="ktp" id="ktp" class="form-control <?= form_error('ktp') ? 'is-invalid' : '' ?>" accept="image/*">
+                                <input type="file" name="ktp" id="ktp" class="form-control <?= form_error('ktp') ? 'is-invalid' : '' ?>" accept="image/png, image/jpeg" onchange="validateImage(this)">
                                  <?= form_error('ktp', '<div class="invalid-feedback d-block">', '</div>'); ?>
                             </div>
                             <button type="button" class="btn btn-primary mt-4 text-center" onclick="showPreviewImage('ktp', 'previewKtpImg', 'modalPreviewKTP')">Preview KTP</button>
@@ -427,7 +427,33 @@
             tujuanHidden.val(this.value);
         }
     });
-    
+
+    function validateImage(input) {
+        const file = input.files[0];
+        if (!file) return;
+
+        const allowedTypes = ['image/jpeg', 'image/png'];
+        const maxSize = 2 * 1024 * 1024; 
+
+        let errorMessage = '';
+
+        if (!allowedTypes.includes(file.type)) {
+            errorMessage = 'Hanya file PNG atau JPG yang diperbolehkan!';
+        } else if (file.size > maxSize) {
+            errorMessage = 'Ukuran file tidak boleh lebih dari 2 MB!';
+        }
+
+        if (errorMessage) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Upload Gagal',
+                text: errorMessage,
+            }).then(() => {
+                input.value = ''; 
+            });
+        }
+    }
+        
     function showPreviewImage(inputId, imgPreviewId, modalId) {
         const input = document.getElementById(inputId);
         if (!input || !input.files || !input.files[0]) {
