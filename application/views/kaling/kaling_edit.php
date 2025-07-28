@@ -159,21 +159,37 @@
             draggable: true
         }).addTo(map);
 
-        marker.on('dragend', function(e) {
-            const position = marker.getLatLng();
-            $('#latitude').val(position.lat.toFixed(8));
-            $('#longitude').val(position.lng.toFixed(8));
+        async function getAddressFromCoordinates(lat, lng) {
+            try {
+                const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`);
+                const data = await res.json();
+                return data.display_name || '';
+            } catch (error) {
+                console.error("Reverse geocoding error:", error);
+                return '';
+            }
+        }
+
+        marker.on('dragend', async function() {
+            const { lat, lng } = marker.getLatLng();
+            $('#latitude').val(parseFloat(lat).toFixed(8));
+            $('#longitude').val(parseFloat(lng).toFixed(8));
+            
+            const address = await getAddressFromCoordinates(lat, lng);
+            $('#alamat').val(address);
         });
 
-        map.on('click', function(e) {
-            const {
-                lat,
-                lng
-            } = e.latlng;
+        map.on('click', async function(e) {
+            const { lat, lng } = e.latlng;
             marker.setLatLng([lat, lng]);
-            $('#latitude').val(lat.toFixed(8));
-            $('#longitude').val(lng.toFixed(8));
+            $('#latitude').val(parseFloat(lat).toFixed(8));
+            $('#longitude').val(parseFloat(lng).toFixed(8));
+
+            const address = await getAddressFromCoordinates(lat, lng);
+            $('#alamat').val(address);
         });
+
+
 
         $('#search-location').on('click', async function() {
             const address = $('#alamat').val();
